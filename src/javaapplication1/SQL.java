@@ -6,6 +6,7 @@
 package javaapplication1;
 import com.mysql.jdbc.*;
 
+
 //impoirt dreamtrader.S25.*;
 
 import java.sql.*;
@@ -28,6 +29,7 @@ boolean bBacktest=true;
 //boolean bBacktest=false;
 
     /** Creates a new instance of DBManager */
+ 
     public SQL(String[] args) {
         try {
             
@@ -45,16 +47,16 @@ boolean bBacktest=true;
             //jdbc:jtds:sqlserver://x.x.x.x/database
             //String url = "jdbc:jtds:sqlserver://w014379:1590;databaseName=tempdb;domain=CGUser;useNTLMv2=true;user=OZ_Splunk_DB_Svc;password=P@$$4sQLDBCo&&ect;integratedSecurity=true;";
 
-            String url = "jdbc:jtds:sqlserver://w534108:1590;domain=CGUser;useNTLMv2=true;user=OZ_Splunk_DB_Svc;password=P@$$4rsQLDBCo&&ect;integratedSecurity=true;";
+           // String url = "jdbc:jtds:sqlserver://w534108:1590;domain=CGUser;useNTLMv2=true;user=OZ_Splunk_DB_Svc;password=P@$$4rsQLDBCo&&ect;integratedSecurity=true;";
             
             //String url = "jdbc:jtds:sqlserver://w534108:1590;domain=CGUser;user=OZ_Splunk_DB_Svc;password=P@$$4sQLDBCo&&ect;integratedSecurity=true;";
             
             //String url = "jdbc:jtds:sqlserver://w014379:1590/CGSQL;user=OZ_Splunk_DB_Svc;password=P@$$4sQLDBCo&&ect;integratedSecurity=true;";
            //X898267	5100	oz_splunk_db_svc	GetTHeR3aLPa33!	NA	SQL_X898267		Sybase 
-            String driver = "net.sourceforge.jtds.jdbc.Driver";
+           // String driver = "net.sourceforge.jtds.jdbc.Driver";
             //String url = "jdbc:jtds:sybase://X898267:5100/SQL_X898267";
             //String url = "jdbc:jtds:sybase://X898267:5100;instance=SQL_X898267;user=oz_splunk_db_svc;password=GetTHeR3aLPa33!";
-            System.out.println (url);
+           // System.out.println (url);
            /* try
             {
                 System.out.println ("Checking for URL Override");
@@ -71,7 +73,7 @@ boolean bBacktest=true;
             //String userName = "OZ_Splunk_DB_Svc";
             //String password = "P@$$4sQLDBCo&&ect";
             //IntegratedSecurity=true
-             System.out.println ("0b"); 
+         /*    System.out.println ("0b"); 
              Class.forName(driver);
              System.out.println(url); 
              System.out.println (2);
@@ -112,6 +114,21 @@ boolean bBacktest=true;
         //String connectionUrl = "jdbc:sqlserver://database-2.chnq5lb3ureq.us-east-1.rds.amazonaws.com:1433;user=admin;password=secret123;";
         //con = DriverManager.getConnection(connectionUrl);  
         //System.out.println (3);
+        //Class.forName("com.ibm.db2.jcc.DB2Driver");
+        //String url = "jdbc:db2://localhost:50000/sample";
+                                          // Set URL for data source
+        //String user = "db2inst1";
+        //String password = "tibbtp24";
+        //con = DriverManager.getConnection(url, user, password); 
+                                          // Create connection
+       // Class.forName("org.postgresql.Driver");
+        String url = "jdbc:postgresql://localhost:5432/?user=postgres&password=abc";
+        Properties props = new Properties();
+        
+//props.setProperty("ssl","true");
+        con = DriverManager.getConnection(url, props);                                 
+        
+        
     } catch(Exception e) {
      e.printStackTrace();
       System.err.println("Exception: " + e.getMessage());
@@ -140,10 +157,15 @@ public void closeconnection()
             System.out.println ("starting up");
          java.sql.Statement st = con.createStatement();  
       
-      //java.sql.ResultSet rs = st.executeQuery("DBCC SQLPERF(logspace) ");
-      java.sql.ResultSet rs = st.executeQuery("Select sysdate from dual");
+      //java.sql.ResultSet rs = st.executeQuery("SELECT * FROM TABLE(MON_GET_WORKLOAD('',-2)) AS t");
+       //java.sql.ResultSet rs = st.executeQuery("SELECT * from SYSIBMADM.MON_CURRENT_SQL");
+       //java.sql.ResultSet rs = st.executeQuery("select * from sysibmadm.snapdb");
+      // java.sql.ResultSet rs = st.executeQuery("select * from SYSIBMADM.SNAPDB_MEMORY_POOL");
+      // java.sql.ResultSet rs = st.executeQuery("SELECT * FROM TABLE(MON_GET_CONNECTION(cast(NULL as bigint),-2)) AS t");
+     //java.sql.ResultSet rs = st.executeQuery("SELECT * FROM TABLE(WLM_GET_WORKLOAD_OCCURRENCE_ACTIVITIES_V97(cast(NULL as bigint), -1)) AS T");
+      java.sql.ResultSet rs = st.executeQuery("select * from pg_stat_activity;");
       java.sql.ResultSetMetaData rsmd = rs.getMetaData();
-      //String szOut= new String();
+      String szOut= new String();
       int columnCount = rsmd.getColumnCount();
       java.util.Vector vColumn = new java.util.Vector();
       String szText = "";
@@ -156,21 +178,23 @@ public void closeconnection()
       {
        for (int i = 1; i <= columnCount; i++ ) {
                                                 String szVal = rs.getString(i);
-                                                szText=szText+", "+(String) vColumn.elementAt(i-1)+"="+szVal;
+                                               szText=szText+", "+(String) vColumn.elementAt(i-1)+"="+szVal;
                                                }   
-       System.out.println (szText.substring(2));
+       
+       //System.out.println (szText);
       }
+      System.out.println (szText);
       
        //System.out.println (rs.getString(1));
-      System.exit(0);
+      //System.exit(0);
 //      while (rs.next())
 
        // */
-        while (1==1)
-        {
-            Thread.sleep(1000);
+       // while (1==1)
+     //   {
+       //     Thread.sleep(1000);
         }
-        }
+        //}
         catch (Exception e)
         {
             e.printStackTrace();

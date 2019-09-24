@@ -63,7 +63,26 @@ public class MonitoringThread extends Thread{
                    //                         bSuccess=false;
                      //                    }
                         }
-                
+               if (mytarget.szType.contains("DB2"))
+                        {    
+                           Class.forName("com.ibm.db2.jcc.DB2Driver");
+                           String url = "jdbc:db2://"+mytarget.szServerName+":"+mytarget.iPort+"/"+mytarget.szDBName;
+                           String user = mytarget.szUser;                           
+                           String password = mytarget.szPassword;                           
+                           con = DriverManager.getConnection(url, user, password);                                             
+                           bLoggedIn=true;
+                        //                 }
+                        }  
+               if (mytarget.szType.contains("PSQL"))
+                        {    
+                           //Class.forName("com.ibm.db2.jcc.DB2Driver");
+                           String url = "jdbc:postgresql://"+mytarget.szServerName+":"+mytarget.iPort+"/?user="+mytarget.szUser+"&password="+mytarget.szPassword;
+                           Properties props = new Properties();
+                           con = DriverManager.getConnection(url, props);                             
+                           //con = DriverManager.getConnection(url, user, password);                                             
+                           bLoggedIn=true;
+                        //                 }
+                        } 
                if (mytarget.szType.contains("ORCL"))
                         {
                 //try {

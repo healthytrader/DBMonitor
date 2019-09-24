@@ -41,6 +41,8 @@ public static String decode(String enc) {
 
 public static void heclog (String szSourceType, String szGUID,String szText,MainConfig mc)
 {
+    try
+    {
     LogMsg mymsg = new LogMsg();
     mymsg.szGUID = szGUID;
     mymsg.szMsg = szText;
@@ -51,6 +53,11 @@ public static void heclog (String szSourceType, String szGUID,String szText,Main
     //}
     if (Utils.bdebug)
             System.out.println (new java.util.Date().toString()+" "+szSourceType+" "+szGUID+" "+szText);
+    }
+    catch (Exception e)
+    {
+        e.printStackTrace();
+    }
     //heclogpost();
 }
 
